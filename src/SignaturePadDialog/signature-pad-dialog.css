@@ -78,6 +78,9 @@
     transform: translate(-50%, -50%);
     color: #888;
     pointer-events: none;
+/*    strong white shadow to hide stuff behind */
+    background: white;
+    box-shadow: 0 0 20px 20px white;
 }
 
 /*footer*/
@@ -112,14 +115,13 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: #888;
     cursor: pointer;
 }
 
 /* make input just a text with caret, with not extra stuff */
 .signature-pad__dialog__text-input {
     /*padding: 90% 0 0 10%;*/
-    width: 100%;
+    width: calc(100% - 16px);
     text-align: start;
     vertical-align: top;
     box-sizing: content-box;
@@ -127,12 +129,45 @@
     border: none;
     outline: none;
     pointer-events: none;
+    border-bottom: 1px dashed #888;
+    height: 40px;
+    padding: 4px 8px;
 
 /*    text transparent, but caret not*/
     color: transparent;
-    /*color: red;*/
     font: 30px Caveat, cursive;
     caret-color: #000;
+}
+
+.signature-pad__dialog__text-input__fonts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    box-sizing: border-box;
+    border-bottom: 1px dashed #888;
+}
+
+.signature-pad__dialog__text-input__font-option {
+    cursor: pointer;
+    transition-duration: 0.3s;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+    color: #555;
+    background: rgba(255, 255, 255, 0.975)
+}
+
+.signature-pad__dialog__text-input__font-option--active {
+    color: black;
+    background: #ccc;
+}
+
+.signature-pad__dialog__text-input__font-option:hover {
+    color: #fff;
+    background: #3d424e;
 }
 
 .hidden {

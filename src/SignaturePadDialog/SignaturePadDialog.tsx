@@ -6,6 +6,7 @@ import React, {
 import SignatureCanvas from 'react-signature-canvas';
 
 import './signature-pad-dialog.css';
+import '../fonts/fonts.css';
 
 // short util to avoid installing dependency
 const clsx = (...classNames: (string | undefined | false)[]) => classNames.filter(Boolean).join(" ");
@@ -18,6 +19,15 @@ interface IProps {
   onSubmit: (base64Image: string | undefined) => void; // might be empty if nothing was drawn
   onClose: () => void; // submit also closes dialog
 }
+
+const FONT_OPTIONS = [
+  "Caveat, cursive",
+  "Marck Script, cursive",
+  "Pacifico, cursive",
+  "Meddon, cursive",
+  "Kalam, cursive",
+  "Tillana, cursive"
+];
 
 const SignaturePadDialog: React.FC<IProps> = (props) => {
   const {
@@ -32,6 +42,7 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
   const refTextInput = useRef<HTMLInputElement | null>();
   const [tab, setTab] = useState<"draw" | "image" | "text">("draw");
   const [showCanvasPlaceholder, setShowCanvasPlaceholder] = useState<boolean>(true);
+  const [font, setFont] = useState<string>(FONT_OPTIONS[1]);
 
   const handleSubmit = useCallback(() => {
     onSubmit(refDrawCanvas.current?.getTrimmedCanvas().toDataURL());
@@ -58,17 +69,21 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
     const ctx = refDrawCanvas.current?.getCanvas()?.getContext("2d");
     if (!ctx) return;
 
-    // large font, TODO make it configurable
-    ctx.font = "30px Caveat, cursive";
-
+    ctx.font = `30px ${font}`;
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
-    ctx.fillText(event.target.value, 2, 34);
-  }, []);
+    ctx.fillText(event.target.value, 8, 34);
+  }, [font]);
 
   const handleClear = useCallback(() => {
     refDrawCanvas.current?.clear();
     setShowCanvasPlaceholder(true);
   }, []);
+
+  // refresh font if font changed and text tab
+  useEffect(() => {
+    if (tab != "text") return;
+    handleTextSignatureChange({ target: { value: refTextInput.current?.value } } as any);
+  }, [font, handleTextSignatureChange]);
 
   if (!visible) return null;
 
@@ -141,7 +156,23 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
             ref={ref => refTextInput.current = ref}
             type="text"
             onChange={handleTextSignatureChange}
+            style={{ fontFamily: font }}
           />
+          <div className="signature-pad__dialog__text-input__fonts-grid">
+            {FONT_OPTIONS.map(fontOption => (
+              <span
+                key={fontOption}
+                className={clsx(
+                  "signature-pad__dialog__text-input__font-option",
+                  fontOption == font && "signature-pad__dialog__text-input__font-option--active"
+                )}
+                style={{ fontFamily: fontOption }}
+                onClick={() => setFont(fontOption)}
+              >
+                {fontOption.split(",")[0]}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
       <div className="signature-pad__dialog__buttons">

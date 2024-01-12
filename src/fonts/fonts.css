@@ -1,0 +1,48 @@
+/*Caveat-Regular.ttf*/
+/*MarckScript-Regular.ttf*/
+/*Meddon-Regular.ttf*/
+/*Pacifico-Regular.ttf*/
+/*Kalam-Regular.ttf*/
+/*Tillana-Regular.ttf*/
+
+@font-face {
+  font-family: 'Caveat';
+  font-style: normal;
+  font-weight: 400;
+  src: url('Caveat-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Marck Script';
+  font-style: normal;
+  font-weight: 400;
+  src: url('MarckScript-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Meddon';
+  font-style: normal;
+  font-weight: 400;
+  src: url('Meddon-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Pacifico';
+  font-style: normal;
+  font-weight: 400;
+  src: url('Pacifico-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Kalam';
+  font-style: normal;
+  font-weight: 400;
+  src: url('Kalam-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Tillana';
+  font-style: normal;
+  font-weight: 400;
+  src: url('Tillana-Regular.ttf') format('truetype');
+}
