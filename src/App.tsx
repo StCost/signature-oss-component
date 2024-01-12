@@ -12,11 +12,6 @@ function App() {
         visible={open}
         onSubmit={setBase64Image}
         onClose={() => setOpen(false)}
-        canvasProps={{
-          width: 500,
-          height: 200,
-          className: 'sigCanvas'
-        }}
       />
       {base64Image && (
         <div>
