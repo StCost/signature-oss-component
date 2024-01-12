@@ -8,11 +8,14 @@ function App() {
 
   return (
     <div className="App">
+      {/* only 3 props are required to use signature pad dialog. */}
       <SignaturePadDialog
         visible={open}
         onSubmit={setBase64Image}
         onClose={() => setOpen(false)}
       />
+
+      {/* preview of result */}
       {base64Image && (
         <div>
           <div>result Base64 image:</div>
@@ -21,15 +24,19 @@ function App() {
             alt=""
           />
           <br />
-          <button
-            onClick={() => {
-              setBase64Image(undefined);
-              setOpen(true);
-            }}
-          >
-            Try again
-          </button>
         </div>
+      )}
+
+      {/*button to open dialog again*/}
+      {!open && (
+        <button
+          onClick={() => {
+            setBase64Image(undefined);
+            setOpen(true);
+          }}
+        >
+          Try again
+        </button>
       )}
     </div>
   );

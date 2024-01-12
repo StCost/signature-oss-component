@@ -3,14 +3,17 @@ import React, {
   useRef,
   useState
 } from 'react';
-import SignatureCanvas, { ReactSignatureCanvasProps } from 'react-signature-canvas';
+import SignatureCanvas from 'react-signature-canvas';
 
 import './signature-pad-dialog.css';
 
 // short util to avoid installing dependency
 const clsx = (...classNames: (string | undefined | false)[]) => classNames.filter(Boolean).join(" ");
 
-interface IProps extends ReactSignatureCanvasProps {
+const HEIGHT = 150;
+const WIDTH = 300;
+
+interface IProps {
   visible: boolean;
   onSubmit: (base64Image: string | undefined) => void; // might be empty if nothing was drawn
   onClose: () => void; // submit also closes dialog
@@ -25,23 +28,14 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
   } = props;
 
   const refDrawCanvas = useRef<SignatureCanvas | null>();
-  const refTextCanvas = useRef<HTMLCanvasElement | null>();
   const refUploadInput = useRef<HTMLInputElement | null>();
   const [tab, setTab] = useState<"draw" | "image" | "text">("draw");
   const [showCanvasPlaceholder, setShowCanvasPlaceholder] = useState<boolean>(true);
 
-  const [base64Image, setBase64Image] = useState<string | undefined>();
-
   const handleSubmit = useCallback(() => {
-    if (tab == "draw")
-      onSubmit(refDrawCanvas.current?.getTrimmedCanvas().toDataURL());
-    if (tab == "image")
-      onSubmit(base64Image);
-    if (tab == "text")
-      onSubmit(refTextCanvas.current?.toDataURL());
-
+    onSubmit(refDrawCanvas.current?.getTrimmedCanvas().toDataURL());
     onClose();
-  }, [tab, base64Image, onClose, onSubmit]);
+  }, [tab, onClose, onSubmit]);
 
   const handleImageUpload = useCallback(() => {
     refUploadInput.current?.click();
@@ -51,31 +45,32 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
     const file = event.target.files?.[0]; // take only first file
     if (!file) return;
 
-    // read file as base64
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const base64 = event.target?.result;
-      setBase64Image(base64 as string);
-    };
-    reader.readAsDataURL(file);
+    // uploaded file might have different dimensions, so we need to resize it
+    const img = new Image();
+    img.src = URL.createObjectURL(file); // blob url to file
+    img.onload = () => {
+      const ctx = refDrawCanvas.current?.getCanvas()?.getContext("2d");
+      if (!ctx) return;
+
+      ctx.clearRect(0, 0, WIDTH, HEIGHT);
+      ctx.drawImage(img, 0, 0, WIDTH, HEIGHT); // will resize image to fit canvas
+    }
   }, [])
 
   const handleTextSignatureChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    // draw text into hidden canvas
-    const ctx = refTextCanvas.current?.getContext("2d");
-    if (!ctx) {
-      console.error("Could not get context of text canvas");
-      return;
-    }
+    const ctx = refDrawCanvas.current?.getCanvas()?.getContext("2d");
+    if (!ctx) return;
 
-    const width = +(canvasProps.canvasProps?.width ?? 0);
-    const height = +(canvasProps.canvasProps?.height ?? 0);
-
-    // large font
+    // large font, TODO make it configurable
     ctx.font = "30px Arial";
 
-    ctx.clearRect(0, 0, width, height);
-    ctx.fillText(event.target.value, width * .1, height * .9);
+    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+    ctx.fillText(event.target.value, WIDTH * .1, HEIGHT * .9);
+  }, []);
+
+  const handleClear = useCallback(() => {
+    refDrawCanvas.current?.clear();
+    setShowCanvasPlaceholder(true);
   }, []);
 
   if (!visible) return null;
@@ -105,13 +100,13 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
       <div className="signature-pad__dialog__content">
         <SignatureCanvas
           {...canvasProps}
+          onBegin={() => setShowCanvasPlaceholder(false)}
           canvasProps={{
-            onMouseDown: () => setShowCanvasPlaceholder(false),
-            ...canvasProps.canvasProps,
+            width: WIDTH,
+            height: HEIGHT,
             className: clsx(
-              canvasProps.canvasProps?.className,
               "signature-pad__dialog__canvas",
-              tab != "draw" && "hidden"
+              tab != "draw" && "not-interactive"
             ),
           }}
           ref={ref => refDrawCanvas.current = ref}
@@ -121,26 +116,26 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
             Draw your signature here
           </div>
         )}
-        <div className={clsx(tab != "image" && "hidden")}>
-          <button onClick={handleImageUpload}>Upload image</button>
-          <img
-            className="upload-preview"
-            src={base64Image}
-            alt="upload preview"
-          />
-          <input
-            type="file"
-            ref={ref => refUploadInput.current = ref}
-            onChange={handleFileUpload}
-          />
-        </div>
+        {tab == "image" && (
+          <>
+            <div className="signature-pad__dialog__canvas-placeholder">
+              Upload your signature here
+            </div>
+            <input
+              type="file"
+              className="hidden"
+              ref={ref => refUploadInput.current = ref}
+              onChange={handleFileUpload}
+            />
+            {/* image upload overlay */}
+            <div
+              className="signature-pad__dialog__image-upload-overlay"
+              style={{ width: WIDTH, height: HEIGHT }}
+              onClick={handleImageUpload}
+            />
+          </>
+        )}
         <div className={clsx(tab != "text" && "hidden")}>
-          <canvas
-            className="hidden"
-            ref={ref => refTextCanvas.current = ref}
-            width={canvasProps.canvasProps?.width}
-            height={canvasProps.canvasProps?.height}
-          />
           <input
             type="text"
             onChange={handleTextSignatureChange}
@@ -148,6 +143,12 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
         </div>
       </div>
       <div className="signature-pad__dialog__buttons">
+        <div
+          className="signature-pad__dialog__button"
+          onClick={handleClear}
+        >
+          Clear
+        </div>
         <div
           className="signature-pad__dialog__button"
           onClick={onClose}
