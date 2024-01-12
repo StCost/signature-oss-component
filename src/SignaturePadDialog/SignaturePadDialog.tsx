@@ -1,5 +1,5 @@
 import React, {
-  useCallback, useEffect,
+  useCallback, useEffect, useMemo,
   useRef,
   useState
 } from 'react';
@@ -41,13 +41,20 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
   const refUploadInput = useRef<HTMLInputElement | null>();
   const refTextInput = useRef<HTMLInputElement | null>();
   const [tab, setTab] = useState<"draw" | "image" | "text">("draw");
-  const [showCanvasPlaceholder, setShowCanvasPlaceholder] = useState<boolean>(true);
-  const [font, setFont] = useState<string>(FONT_OPTIONS[1]);
+  const [font, setFont] = useState<string>(FONT_OPTIONS[0]);
+  const [isEmpty, setIsEmpty] = useState<boolean>(true);
 
-  const handleSubmit = useCallback(() => {
+  const handleSubmit = () => {
     onSubmit(refDrawCanvas.current?.getTrimmedCanvas().toDataURL());
     onClose();
-  }, [tab, onClose, onSubmit]);
+
+    // reset everything
+    setTab("draw");
+    setFont(FONT_OPTIONS[0]);
+    setIsEmpty(true);
+    refDrawCanvas.current?.clear();
+    if (refTextInput.current) refTextInput.current.value = "";
+  };
 
   const handleFileUpload = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]; // take only first file
@@ -62,6 +69,8 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
 
       ctx.clearRect(0, 0, WIDTH, HEIGHT);
       ctx.drawImage(img, 0, 0, WIDTH, HEIGHT); // will resize image to fit canvas
+
+      setIsEmpty(false);
     }
   }, [])
 
@@ -72,17 +81,20 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
     ctx.font = `30px ${font}`;
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
     ctx.fillText(event.target.value, 8, 34);
+
+    setIsEmpty(!event.target.value);
   }, [font]);
 
   const handleClear = useCallback(() => {
     refDrawCanvas.current?.clear();
-    setShowCanvasPlaceholder(true);
+    if (refTextInput.current) refTextInput.current.value = "";
+    setIsEmpty(true);
   }, []);
 
   // refresh font if font changed and text tab
   useEffect(() => {
-    if (tab != "text") return;
-    handleTextSignatureChange({ target: { value: refTextInput.current?.value } } as any);
+    if (tab == "text" && refTextInput.current?.value)
+      handleTextSignatureChange({ target: { value: refTextInput.current?.value } } as any);
   }, [font, handleTextSignatureChange]);
 
   if (!visible) return null;
@@ -112,7 +124,7 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
       <div className="signature-pad__dialog__content">
         <SignatureCanvas
           {...canvasProps}
-          onBegin={() => setShowCanvasPlaceholder(false)}
+          onBegin={() => setIsEmpty(false)}
           canvasProps={{
             width: WIDTH,
             height: HEIGHT,
@@ -123,16 +135,18 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
           }}
           ref={ref => refDrawCanvas.current = ref}
         />
-        {tab == "draw" && showCanvasPlaceholder && (
+        {tab == "draw" && isEmpty && (
           <div className="signature-pad__dialog__canvas-placeholder">
             Draw your signature here
           </div>
         )}
         {tab == "image" && (
           <>
-            <div className="signature-pad__dialog__canvas-placeholder">
-              Upload your signature here
-            </div>
+            {isEmpty && (
+              <div className="signature-pad__dialog__canvas-placeholder">
+                Upload your signature here
+              </div>
+            )}
             <input
               type="file"
               className="hidden"
@@ -157,6 +171,7 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
             type="text"
             onChange={handleTextSignatureChange}
             style={{ fontFamily: font }}
+            placeholder="Type here"
           />
           <div className="signature-pad__dialog__text-input__fonts-grid">
             {FONT_OPTIONS.map(fontOption => (
@@ -176,12 +191,14 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
         </div>
       </div>
       <div className="signature-pad__dialog__buttons">
-        <div
-          className="signature-pad__dialog__button"
-          onClick={handleClear}
-        >
-          Clear
-        </div>
+        {!isEmpty && (
+          <div
+            className="signature-pad__dialog__button"
+            onClick={handleClear}
+          >
+            Clear
+          </div>
+        )}
         <div
           className="signature-pad__dialog__button"
           onClick={onClose}

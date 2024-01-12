@@ -65,7 +65,28 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    transition-duration: 0.3s;
 }
+
+.signature-pad__dialog__image-upload-overlay:after {
+    transition-duration: 0.3s;
+    content: "Upload your signature here";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #444;
+    opacity: 0;
+    pointer-events: none;
+    box-shadow: 0 0 20px 25px #ddd;
+    background: #ddd;
+    white-space: nowrap;
+}
+
+.signature-pad__dialog__image-upload-overlay:hover:after {
+    opacity: 1;
+}
+
 
 .not-interactive {
     pointer-events: none;
@@ -78,7 +99,7 @@
     transform: translate(-50%, -50%);
     color: #888;
     pointer-events: none;
-/*    strong white shadow to hide stuff behind */
+    /*    strong white shadow to hide stuff behind */
     background: white;
     box-shadow: 0 0 20px 20px white;
 }
@@ -133,10 +154,15 @@
     height: 40px;
     padding: 4px 8px;
 
-/*    text transparent, but caret not*/
+    /*    text transparent, but caret and placeholder not*/
     color: transparent;
     font: 30px Caveat, cursive;
     caret-color: #000;
+}
+
+/*keep color of palecholder*/
+.signature-pad__dialog__text-input::placeholder {
+    color: #aaa;
 }
 
 .signature-pad__dialog__text-input__fonts-grid {
