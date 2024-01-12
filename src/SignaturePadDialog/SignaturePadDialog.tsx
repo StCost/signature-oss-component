@@ -144,7 +144,7 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
           <>
             {isEmpty && (
               <div className="signature-pad__dialog__canvas-placeholder">
-                Upload your signature here
+                Upload new signature here
               </div>
             )}
             <input
@@ -171,7 +171,7 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
             type="text"
             onChange={handleTextSignatureChange}
             style={{ fontFamily: font }}
-            placeholder="Type here"
+            placeholder="Type your signature here"
           />
           <div className="signature-pad__dialog__text-input__fonts-grid">
             {FONT_OPTIONS.map(fontOption => (

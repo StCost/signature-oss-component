@@ -70,7 +70,7 @@
 
 .signature-pad__dialog__image-upload-overlay:after {
     transition-duration: 0.3s;
-    content: "Upload your signature here";
+    content: "Upload new signature here";
     position: absolute;
     top: 50%;
     left: 50%;
@@ -78,8 +78,10 @@
     color: #444;
     opacity: 0;
     pointer-events: none;
-    box-shadow: 0 0 20px 25px #ddd;
-    background: #ddd;
+    border-radius: 25%;
+    padding: 6px;
+    box-shadow: 0 0 6px 12px rgba(221, 221, 221, 0.9);
+    background: rgba(221, 221, 221, 0.9);
     white-space: nowrap;
 }
 
@@ -162,7 +164,9 @@
 
 /*keep color of palecholder*/
 .signature-pad__dialog__text-input::placeholder {
-    color: #aaa;
+    color: #ddd;
+    font-size: 20px;
+    font-family: Helvetica, sans-serif;
 }
 
 .signature-pad__dialog__text-input__fonts-grid {
