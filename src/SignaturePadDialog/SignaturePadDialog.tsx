@@ -29,6 +29,7 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
 
   const refDrawCanvas = useRef<SignatureCanvas | null>();
   const refUploadInput = useRef<HTMLInputElement | null>();
+  const refTextInput = useRef<HTMLInputElement | null>();
   const [tab, setTab] = useState<"draw" | "image" | "text">("draw");
   const [showCanvasPlaceholder, setShowCanvasPlaceholder] = useState<boolean>(true);
 
@@ -36,10 +37,6 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
     onSubmit(refDrawCanvas.current?.getTrimmedCanvas().toDataURL());
     onClose();
   }, [tab, onClose, onSubmit]);
-
-  const handleImageUpload = useCallback(() => {
-    refUploadInput.current?.click();
-  }, [])
 
   const handleFileUpload = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]; // take only first file
@@ -62,10 +59,10 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
     if (!ctx) return;
 
     // large font, TODO make it configurable
-    ctx.font = "30px Arial";
+    ctx.font = "30px Caveat, cursive";
 
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
-    ctx.fillText(event.target.value, WIDTH * .1, HEIGHT * .9);
+    ctx.fillText(event.target.value, 2, 34);
   }, []);
 
   const handleClear = useCallback(() => {
@@ -127,16 +124,21 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
               ref={ref => refUploadInput.current = ref}
               onChange={handleFileUpload}
             />
-            {/* image upload overlay */}
             <div
               className="signature-pad__dialog__image-upload-overlay"
               style={{ width: WIDTH, height: HEIGHT }}
-              onClick={handleImageUpload}
+              onClick={() => refUploadInput.current?.click()}
             />
           </>
         )}
-        <div className={clsx(tab != "text" && "hidden")}>
+        <div
+          className={clsx(tab != "text" && "hidden", "signature-pad__dialog__text-input-overlay")}
+          onClick={() => refTextInput.current?.focus()} // focuses input on click anywhere in canvas box
+          style={{ width: WIDTH, height: HEIGHT }}
+        >
           <input
+            className="signature-pad__dialog__text-input"
+            ref={ref => refTextInput.current = ref}
             type="text"
             onChange={handleTextSignatureChange}
           />

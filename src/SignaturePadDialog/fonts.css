@@ -1,0 +1,32 @@
+/*Caveat-Bold.ttf*/
+/*Caveat-Medium.ttf*/
+/*Caveat-Regular.ttf*/
+/*Caveat-SemiBold.ttf*/
+
+@font-face {
+  font-family: 'Caveat';
+  font-style: normal;
+  font-weight: 400;
+  src: url('src/fonts/Caveat-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Caveat';
+  font-style: normal;
+  font-weight: 500;
+  src: url('src/fonts/Caveat-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Caveat';
+  font-style: normal;
+  font-weight: 600;
+  src: url('src/fonts/Caveat-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Caveat';
+  font-style: normal;
+  font-weight: 700;
+  src: url('src/fonts/Caveat-Bold.ttf') format('truetype');
+}
