@@ -2,7 +2,7 @@ import React from "react";
 import { clsx } from "../utils.signature";
 import { TSignatureTab } from "./SignatureTabs";
 import { FONT_OPTIONS, TSignatureFont } from "../fonts/font.types";
-import { SIGNATURE_CANVAS_HEIGHT, SIGNATURE_CANVAS_WIDTH } from "../constants.signature";
+import { SIGNATURE_CANVAS_HEIGHT, SIGNATURE_CANVAS_WIDTH, SIGNATURE_FONT_SIZE } from "../constants.signature";
 
 import "../styles/signature-text.css";
 import '../fonts/fonts.css';
@@ -10,32 +10,32 @@ import '../fonts/fonts.css';
 interface IProps {
   tab: TSignatureTab;
   font: TSignatureFont;
-  handleTextSignatureChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   setFont: (font: TSignatureFont) => void;
   refTextInput: React.MutableRefObject<HTMLInputElement | null | undefined>;
+  onTextSignatureChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const SignatureText = (props: IProps) => {
   const {
     tab,
     font,
-    handleTextSignatureChange,
     setFont,
-    refTextInput
+    refTextInput,
+    onTextSignatureChange,
   } = props;
 
   return (
     <div
       className={clsx(tab != "text" && "hidden", "signature-pad__dialog__text-input-overlay")}
-      onClick={() => refTextInput.current?.focus()} // focuses input on click anywhere in canvas box
+      onClick={() => refTextInput.current?.focus()} // focuses input if clicked anywhere in canvas bounds
       style={{ width: SIGNATURE_CANVAS_WIDTH, height: SIGNATURE_CANVAS_HEIGHT }}
     >
       <input
         className="signature-pad__dialog__text-input"
         ref={ref => refTextInput.current = ref}
         type="text"
-        onChange={handleTextSignatureChange}
-        style={{ fontFamily: font }}
+        onChange={onTextSignatureChange}
+        style={{ fontFamily: font, fontSize: SIGNATURE_FONT_SIZE }}
         placeholder="Type your signature here"
       />
       <div className="signature-pad__dialog__text-input__fonts-grid">

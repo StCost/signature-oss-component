@@ -1,49 +1,61 @@
 # signature-oss-component
-ReactTS open source signature pad component
+ReactJS + TypeScript + [react-signature-canvas](https://github.com/agilgur5/react-signature-canvas)
+open source signature pad component 
 
-# Getting Started with Create React App
+Example bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+---
 
-## Available Scripts
+# Features
+When opened, dialog appears in center of screen and offers 3 ways to submit signature:
+1. Draw signature with mouse or finger
+2. Upload image of any format (jpg, png, svg, webp, etc.) Image is put onto canvas, scaled to fit canvas, and user can draw on top of it in draw mode
+3. Type text manually and choose fancy font
 
-In the project directory, you can run:
+After submitting, dialog closes and calls callback with base64 string of signature image. This string can be saved in database or sent to server.
 
-### `yarn start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+# Installation
+1. Copy [`src/SignaturePadDialog`](src/SignaturePadDialog) folder to your ReactTS project (or use it as a reference to create your own component)
+2. Install dependencies using `npm` or `yarn`
+- `npm install react-signature-canvas --save-dev @types/react-signature-canvas`
+- `yarn add react-signature-canvas --dev @types/react-signature-canvas`
+3. Import [`SignaturePadDialog`](src/SignaturePadDialog/index.ts) component to any place in your project
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+---
 
-### `yarn test`
+# Usage
+- Opened state and result are managed outside by parent component. So only 3 props are sufficient to use this component
+```javascript
+interface IProps {
+    visible: boolean; // pass this to show/hide dialog
+    onSubmit: (base64Image: string | undefined) => void; // callback when user submits signature. svg converted into base64 string
+    onClose: () => void; // callback when user submits and/or closes dialog
+}
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `yarn build`
+- Short code example. Import, state, callbacks and render
+```javascript
+import SignaturePadDialog from './SignaturePadDialog';
+...
+const [open, setOpen] = React.useState(true);
+const [base64Image, setBase64Image] = React.useState<string | undefined>();
+...
+<SignaturePadDialog
+    visible={open}
+    onSubmit={setBase64Image}
+    onClose={() => setOpen(false)}
+/>
+```
+- Or see [`src/Example.tsx`](src/Example.tsx))
+- Or start example app with `npm start` or `yarn start`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# What is <b><i>base64</i></b>?
+- [Base64](https://en.wikipedia.org/wiki/Base64) is a group of binary-to-text encoding schemes that represent binary data (more specifically a sequence of 8-bit bytes) in an ASCII string format by translating it into a radix-64 representation. The term Base64 originates from a specific MIME content transfer encoding.
+- In practical terms, image is converted into text format. This text can be saved in database or sent to server. Server can convert it back to image and save it as file.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).

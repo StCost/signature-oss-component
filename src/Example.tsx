@@ -1,8 +1,8 @@
 import React from 'react';
 import SignaturePadDialog from "./SignaturePadDialog";
-import './App.css';
+import './Example.css';
 
-function App() {
+function Example() {
   const [open, setOpen] = React.useState(true);
   const [base64Image, setBase64Image] = React.useState<string | undefined>();
 
@@ -42,4 +42,4 @@ function App() {
   );
 }
 
-export default App;
+export default Example;

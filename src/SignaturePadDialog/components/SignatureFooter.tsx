@@ -5,16 +5,16 @@ import "../styles/signature-footer.css";
 interface IProps {
   isEmpty: boolean;
   onClose: () => void;
-  onSubmit: () => void;
   onClear: () => void;
+  onSubmit: () => void;
 }
 
 const SignatureFooter = (props: IProps) => {
   const {
     isEmpty,
     onClose,
+    onClear,
     onSubmit,
-    onClear
   } = props;
 
   return (

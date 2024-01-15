@@ -15,7 +15,7 @@ import SignatureFooter from "./components/SignatureFooter";
 import { FONT_OPTIONS, TSignatureFont } from "./fonts/font.types";
 import SignatureUploadOverlay from "./components/SignatureUploadOverlay";
 import SignatureTabs, { TSignatureTab } from "./components/SignatureTabs";
-import { SIGNATURE_CANVAS_HEIGHT, SIGNATURE_CANVAS_WIDTH } from "./constants.signature";
+import { SIGNATURE_CANVAS_HEIGHT, SIGNATURE_CANVAS_WIDTH, SIGNATURE_FONT_SIZE } from "./constants.signature";
 
 interface IProps {
   visible: boolean;
@@ -49,7 +49,7 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
     if (refTextInput.current) refTextInput.current.value = "";
   };
 
-  const handleFileUpload = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+  const onFileUpload = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]; // take only first file
     if (!file) return;
 
@@ -67,28 +67,28 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
     }
   }, [])
 
-  const handleTextSignatureChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+  const onTextSignatureChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const ctx = refDrawCanvas.current?.getCanvas()?.getContext("2d");
     if (!ctx) return;
 
-    ctx.font = `30px ${font}`;
+    ctx.font = `${SIGNATURE_FONT_SIZE} ${font}`;
     ctx.clearRect(0, 0, SIGNATURE_CANVAS_WIDTH, SIGNATURE_CANVAS_HEIGHT);
     ctx.fillText(event.target.value, 8, 34); // magic offset to put text in the same place where input is
 
     setIsEmpty(!event.target.value);
   }, [font]);
 
-  const handleClear = useCallback(() => {
+  const onClear = () => {
     refDrawCanvas.current?.clear();
     if (refTextInput.current) refTextInput.current.value = "";
     setIsEmpty(true);
-  }, []);
+  };
 
   // refresh font if font changed and text tab
   useEffect(() => {
     if (tab == "text" && refTextInput.current?.value)
-      handleTextSignatureChange({ target: { value: refTextInput.current?.value } } as any);
-  }, [font, handleTextSignatureChange]);
+      onTextSignatureChange({ target: { value: refTextInput.current?.value } } as any);
+  }, [font, onTextSignatureChange]);
 
   if (!visible) return null;
 
@@ -120,21 +120,21 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
           tab={tab}
           isEmpty={isEmpty}
           refUploadInput={refUploadInput}
-          handleFileUpload={handleFileUpload}
+          onFileUpload={onFileUpload}
         />
         <SignatureText
           tab={tab}
           font={font}
           setFont={setFont}
           refTextInput={refTextInput}
-          handleTextSignatureChange={handleTextSignatureChange}
+          onTextSignatureChange={onTextSignatureChange}
         />
       </div>
       <SignatureFooter
         isEmpty={isEmpty}
         onClose={onClose}
         onSubmit={handleSubmit}
-        onClear={handleClear}
+        onClear={onClear}
       />
     </div>
   );
