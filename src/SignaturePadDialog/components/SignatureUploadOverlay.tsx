@@ -5,14 +5,14 @@ import { TSignatureTab } from "./SignatureTabs";
 import "../styles/signature-upload-overlay.css";
 import { clsx } from "../utils.signature";
 
-interface ISignatureUploadOverlayProps {
+interface IProps {
   tab: TSignatureTab;
   isEmpty: boolean;
   refUploadInput: React.MutableRefObject<HTMLInputElement | null | undefined>;
   handleFileUpload: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const SignatureUploadOverlay = (props: ISignatureUploadOverlayProps) => {
+const SignatureUploadOverlay = (props: IProps) => {
   const {
     tab,
     isEmpty,

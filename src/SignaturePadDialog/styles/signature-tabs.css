@@ -10,14 +10,32 @@
 .signature-pad__dialog__tab {
     margin-right: 5px;
     cursor: pointer;
-    border: 1px solid #888;
-    border-bottom: 0;
+    /*border: 1px solid #888;*/
+    /*border-bottom: 0;*/
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     padding: 5px 10px;
     color: #fff;
     background: #3d424e;
     transition-duration: 0.3s;
+    position: relative;
+}
+
+.signature-pad__dialog__tab--selected {
+    background: #cdd7ef;
+    color: #3d424e;
+    border-bottom: 1px solid #888;
+    border-top: 0;
+}
+
+.signature-pad__dialog__tab--selected:after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #1a57ec;
 }
 
 .signature-pad__dialog__tab:hover:not(:active) {

@@ -1,6 +1,7 @@
 import React from "react";
 
 import "../styles/signature-tabs.css";
+import { clsx } from "../utils.signature";
 
 export type TSignatureTab = "draw" | "image" | "text";
 
@@ -15,19 +16,28 @@ const SignatureTabs = (props: IProps) => {
   return (
     <div className="signature-pad__dialog__tabs">
       <div
-        className="signature-pad__dialog__tab"
+        className={clsx(
+          "signature-pad__dialog__tab",
+          tab == "draw" && "signature-pad__dialog__tab--selected"
+        )}
         onClick={() => setTab("draw")}
       >
         Draw
       </div>
       <div
-        className="signature-pad__dialog__tab"
+        className={clsx(
+          "signature-pad__dialog__tab",
+          tab == "image" && "signature-pad__dialog__tab--selected"
+        )}
         onClick={() => setTab("image")}
       >
         Image
       </div>
       <div
-        className="signature-pad__dialog__tab"
+        className={clsx(
+          "signature-pad__dialog__tab",
+          tab == "text" && "signature-pad__dialog__tab--selected"
+        )}
         onClick={() => setTab("text")}
       >
         Text
