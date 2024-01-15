@@ -1,4 +1,4 @@
-import { HEIGHT, WIDTH } from "./constants.signature";
+import { SIGNATURE_CANVAS_HEIGHT, SIGNATURE_CANVAS_WIDTH } from "../constants.signature";
 import React from "react";
 import { TSignatureTab } from "./SignatureTabs";
 
@@ -34,7 +34,7 @@ const SignatureUploadOverlay = (props: ISignatureUploadOverlayProps) => {
       />
       <div
         className="signature-pad__dialog__image-upload-overlay"
-        style={{ width: WIDTH, height: HEIGHT }}
+        style={{ width: SIGNATURE_CANVAS_WIDTH, height: SIGNATURE_CANVAS_HEIGHT }}
         onClick={() => refUploadInput.current?.click()}
       />
     </>

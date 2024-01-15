@@ -1,7 +1,7 @@
 import React from "react";
 import { TSignatureTab } from "./SignatureTabs";
-import { clsx } from "./utils.signature";
-import { HEIGHT, WIDTH } from "./constants.signature";
+import { clsx } from "../utils.signature";
+import { SIGNATURE_CANVAS_HEIGHT, SIGNATURE_CANVAS_WIDTH } from "../constants.signature";
 
 export type TSignatureFont = "Caveat, cursive" | "Marck Script, cursive" | "Pacifico, cursive" | "Meddon, cursive" | "Kalam, cursive" | "Tillana, cursive";
 
@@ -35,7 +35,7 @@ const SignatureTextBox = (props: IProps) => {
     <div
       className={clsx(tab != "text" && "hidden", "signature-pad__dialog__text-input-overlay")}
       onClick={() => refTextInput.current?.focus()} // focuses input on click anywhere in canvas box
-      style={{ width: WIDTH, height: HEIGHT }}
+      style={{ width: SIGNATURE_CANVAS_WIDTH, height: SIGNATURE_CANVAS_HEIGHT }}
     >
       <input
         className="signature-pad__dialog__text-input"

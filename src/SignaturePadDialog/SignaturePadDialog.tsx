@@ -6,14 +6,14 @@ import React, {
 } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
 
-import './signature-pad-dialog.css';
+import './styles/signature-pad-dialog.css';
 import '../fonts/fonts.css';
-import SignatureTabs from "./SignatureTabs";
-import SignatureButtons from "./SignatureButtons";
-import SignatureTextBox, { FONT_OPTIONS, TSignatureFont } from "./SignatureTextBox";
+import SignatureTabs from "./components/SignatureTabs";
+import SignatureButtons from "./components/SignatureButtons";
+import SignatureTextBox, { FONT_OPTIONS, TSignatureFont } from "./components/SignatureTextBox";
 import { clsx } from "./utils.signature";
-import { HEIGHT, WIDTH } from "./constants.signature";
-import SignatureUploadOverlay from "./SignatureUploadOverlay";
+import { SIGNATURE_CANVAS_HEIGHT, SIGNATURE_CANVAS_WIDTH } from "./constants.signature";
+import SignatureUploadOverlay from "./components/SignatureUploadOverlay";
 
 interface IProps {
   visible: boolean;
@@ -59,8 +59,8 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
       const ctx = refDrawCanvas.current?.getCanvas()?.getContext("2d");
       if (!ctx) return;
 
-      ctx.clearRect(0, 0, WIDTH, HEIGHT);
-      ctx.drawImage(img, 0, 0, WIDTH, HEIGHT); // will resize image to fit canvas
+      ctx.clearRect(0, 0, SIGNATURE_CANVAS_WIDTH, SIGNATURE_CANVAS_HEIGHT);
+      ctx.drawImage(img, 0, 0, SIGNATURE_CANVAS_WIDTH, SIGNATURE_CANVAS_HEIGHT); // will resize image to fit canvas
 
       setIsEmpty(false);
     }
@@ -71,7 +71,7 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
     if (!ctx) return;
 
     ctx.font = `30px ${font}`;
-    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+    ctx.clearRect(0, 0, SIGNATURE_CANVAS_WIDTH, SIGNATURE_CANVAS_HEIGHT);
     ctx.fillText(event.target.value, 8, 34);
 
     setIsEmpty(!event.target.value);
@@ -102,8 +102,8 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
           {...canvasProps}
           onBegin={() => setIsEmpty(false)}
           canvasProps={{
-            width: WIDTH,
-            height: HEIGHT,
+            width: SIGNATURE_CANVAS_WIDTH,
+            height: SIGNATURE_CANVAS_HEIGHT,
             className: clsx(
               "signature-pad__dialog__canvas",
               tab != "draw" && "not-interactive"

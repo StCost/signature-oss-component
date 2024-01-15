@@ -1,4 +1,2 @@
-
-
-export const HEIGHT = 150;
-export const WIDTH = 300;
+export const SIGNATURE_CANVAS_WIDTH = 300;
+export const SIGNATURE_CANVAS_HEIGHT = 150;
