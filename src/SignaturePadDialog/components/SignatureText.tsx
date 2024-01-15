@@ -1,21 +1,11 @@
 import React from "react";
-import { TSignatureTab } from "./SignatureTabs";
 import { clsx } from "../utils.signature";
+import { TSignatureTab } from "./SignatureTabs";
+import { FONT_OPTIONS, TSignatureFont } from "../fonts/font.types";
 import { SIGNATURE_CANVAS_HEIGHT, SIGNATURE_CANVAS_WIDTH } from "../constants.signature";
 
 import "../styles/signature-text.css";
 import '../fonts/fonts.css';
-
-export type TSignatureFont = "Caveat, cursive" | "Marck Script, cursive" | "Pacifico, cursive" | "Meddon, cursive" | "Kalam, cursive" | "Tillana, cursive";
-
-export const FONT_OPTIONS: TSignatureFont[] = [
-  "Caveat, cursive",
-  "Marck Script, cursive",
-  "Pacifico, cursive",
-  "Meddon, cursive",
-  "Kalam, cursive",
-  "Tillana, cursive"
-];
 
 interface IProps {
   tab: TSignatureTab;

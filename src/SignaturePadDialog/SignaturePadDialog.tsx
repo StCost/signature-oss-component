@@ -6,15 +6,16 @@ import React, {
 } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
 
-import './styles/signature-pad-dialog.css';
 import './styles/colors.css';
+import './styles/signature-pad-dialog.css';
 
-import SignatureTabs from "./components/SignatureTabs";
-import SignatureFooter from "./components/SignatureFooter";
-import SignatureText, { FONT_OPTIONS, TSignatureFont } from "./components/SignatureText";
 import { clsx } from "./utils.signature";
-import { SIGNATURE_CANVAS_HEIGHT, SIGNATURE_CANVAS_WIDTH } from "./constants.signature";
+import SignatureText from "./components/SignatureText";
+import SignatureFooter from "./components/SignatureFooter";
+import { FONT_OPTIONS, TSignatureFont } from "./fonts/font.types";
 import SignatureUploadOverlay from "./components/SignatureUploadOverlay";
+import SignatureTabs, { TSignatureTab } from "./components/SignatureTabs";
+import { SIGNATURE_CANVAS_HEIGHT, SIGNATURE_CANVAS_WIDTH } from "./constants.signature";
 
 interface IProps {
   visible: boolean;
@@ -27,13 +28,12 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
     visible,
     onClose,
     onSubmit,
-    ...canvasProps
   } = props;
 
   const refDrawCanvas = useRef<SignatureCanvas | null>();
   const refUploadInput = useRef<HTMLInputElement | null>();
   const refTextInput = useRef<HTMLInputElement | null>();
-  const [tab, setTab] = useState<"draw" | "image" | "text">("draw");
+  const [tab, setTab] = useState<TSignatureTab>("draw");
   const [font, setFont] = useState<TSignatureFont>(FONT_OPTIONS[0]);
   const [isEmpty, setIsEmpty] = useState<boolean>(true);
 
@@ -73,7 +73,7 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
 
     ctx.font = `30px ${font}`;
     ctx.clearRect(0, 0, SIGNATURE_CANVAS_WIDTH, SIGNATURE_CANVAS_HEIGHT);
-    ctx.fillText(event.target.value, 8, 34);
+    ctx.fillText(event.target.value, 8, 34); // magic offset to put text in the same place where input is
 
     setIsEmpty(!event.target.value);
   }, [font]);
@@ -100,8 +100,8 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
       />
       <div className="signature-pad__dialog__content">
         <SignatureCanvas
-          {...canvasProps}
-          onBegin={() => setIsEmpty(false)}
+          ref={ref => refDrawCanvas.current = ref}
+          onBegin={() => setIsEmpty(false)} // any click will draw smth, so mark as not empty
           canvasProps={{
             width: SIGNATURE_CANVAS_WIDTH,
             height: SIGNATURE_CANVAS_HEIGHT,
@@ -110,7 +110,6 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
               tab != "draw" && "not-interactive"
             ),
           }}
-          ref={ref => refDrawCanvas.current = ref}
         />
         {tab == "draw" && isEmpty && (
           <div className="signature-pad__dialog__canvas-placeholder">

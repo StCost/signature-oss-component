@@ -1,9 +1,9 @@
-import { SIGNATURE_CANVAS_HEIGHT, SIGNATURE_CANVAS_WIDTH } from "../constants.signature";
 import React from "react";
-import { TSignatureTab } from "./SignatureTabs";
-
-import "../styles/signature-upload-overlay.css";
 import { clsx } from "../utils.signature";
+import { TSignatureTab } from "./SignatureTabs";
+import "../styles/signature-upload-overlay.css";
+import { SIGNATURE_CANVAS_HEIGHT, SIGNATURE_CANVAS_WIDTH } from "../constants.signature";
+
 
 interface IProps {
   tab: TSignatureTab;
