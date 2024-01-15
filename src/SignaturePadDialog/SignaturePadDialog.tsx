@@ -7,6 +7,8 @@ import React, {
 import SignatureCanvas from 'react-signature-canvas';
 
 import './styles/signature-pad-dialog.css';
+import './styles/colors.css';
+
 import SignatureTabs from "./components/SignatureTabs";
 import SignatureFooter from "./components/SignatureFooter";
 import SignatureText, { FONT_OPTIONS, TSignatureFont } from "./components/SignatureText";

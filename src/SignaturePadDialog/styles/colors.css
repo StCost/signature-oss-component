@@ -1,0 +1,9 @@
+:root {
+    --signature-main-color: #3d424e;
+    --signature-content-color: #fff;
+    --signature-border-color: #888;
+
+    --signature-button-color: #3d424e;
+    --signature-button-hover-color: #626770;
+    --signature-button-selected-color: #23395d;
+}

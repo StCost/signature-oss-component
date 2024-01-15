@@ -15,7 +15,7 @@
     border: none;
     outline: none;
     pointer-events: none;
-    border-bottom: 1px dashed #888;
+    border-bottom: 1px dashed var(--signature-border-color);
     height: 40px;
     padding: 4px 8px;
 
@@ -35,7 +35,7 @@
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
     box-sizing: border-box;
-    border-bottom: 1px dashed #888;
+    border-bottom: 1px dashed var(--signature-border-color);
 }
 
 .signature-pad__dialog__text-input__font-option {
@@ -52,11 +52,11 @@
 }
 
 .signature-pad__dialog__text-input__font-option--active {
-    color: black;
-    background: #ccc;
+    color: var(--signature-content-color);
+    background: var(--signature-button-hover-color);
 }
 
 .signature-pad__dialog__text-input__font-option:hover {
-    color: #fff;
-    background: #3d424e;
+    color: var(--signature-content-color);
+    background: var(--signature-button-selected-color);
 }

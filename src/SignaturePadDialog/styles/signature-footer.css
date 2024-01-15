@@ -3,7 +3,7 @@
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
-    border-top: 1px solid #888;
+    border-top: 1px solid var(--signature-border-color);
 }
 
 .signature-pad__dialog__button {
@@ -12,16 +12,14 @@
     font-size: 16px;
     padding: 16px 32px;
     height: 100%;
-    color: #fff;
-    border-left: 1px solid #888;
+    color: var(--signature-content-color);
+    border-left: 1px solid var(--signature-border-color);
 }
 
 .signature-pad__dialog__button:hover {
-    background: #ccc;
-    color: #3d424e;
+    background: var(--signature-button-hover-color);
 }
 .signature-pad__dialog__button:active {
-    background: #888;
-    color: #fff;
+    background: var(--signature-button-selected-color);
 }
 

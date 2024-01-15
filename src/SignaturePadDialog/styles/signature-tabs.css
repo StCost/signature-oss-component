@@ -3,7 +3,7 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    border-bottom: 1px solid #888;
+    border-bottom: 1px solid var(--signature-border-color);
 }
 
 /* copies .signature-pad__dialog__button */
@@ -13,30 +13,35 @@
     font-size: 16px;
     padding: 16px 32px;
     height: 100%;
-    color: #fff;
+    color: var(--signature-content-color);
 
-    border-right: 1px solid #888;
+    border-right: 1px solid var(--signature-border-color);
     position: relative;
 }
 
-.signature-pad__dialog__tab:hover:not(:active) {
-    background: #ccc;
-    color: #3d424e;
+.signature-pad__dialog__tab:hover {
+    background: var(--signature-button-hover-color);
+    color: var(--signature-content-color);
+}
+
+.signature-pad__dialog__tab:active {
+    background: var(--signature-button-selected-color);
+    color: var(--signature-content-color);
 }
 
 .signature-pad__dialog__tab--selected {
-    background: #cdd7ef;
-    color: #3d424e;
-    border-bottom: 1px solid #888;
+    background: var(--signature-button-selected-color);
+    color: var(--signature-content-color);
+    border-bottom: 1px solid var(--signature-border-color);
     border-top: 0;
 }
 
 .signature-pad__dialog__tab--selected:after {
     content: "";
     position: absolute;
-    bottom: -1px;
+    bottom: -2px;
     left: 0;
     width: 100%;
-    height: 2px;
-    background: #1a57ec;
+    height: 4px;
+    background: var(--signature-button-selected-color);
 }
