@@ -1,5 +1,6 @@
 import React, {
-  useCallback, useEffect, useMemo,
+  useCallback,
+  useEffect,
   useRef,
   useState
 } from 'react';
@@ -7,27 +8,18 @@ import SignatureCanvas from 'react-signature-canvas';
 
 import './signature-pad-dialog.css';
 import '../fonts/fonts.css';
-
-// short util to avoid installing dependency
-const clsx = (...classNames: (string | undefined | false)[]) => classNames.filter(Boolean).join(" ");
-
-const HEIGHT = 150;
-const WIDTH = 300;
+import SignatureTabs from "./SignatureTabs";
+import SignatureButtons from "./SignatureButtons";
+import SignatureTextBox, { FONT_OPTIONS, TSignatureFont } from "./SignatureTextBox";
+import { clsx } from "./utils.signature";
+import { HEIGHT, WIDTH } from "./constants.signature";
+import SignatureUploadOverlay from "./SignatureUploadOverlay";
 
 interface IProps {
   visible: boolean;
   onSubmit: (base64Image: string | undefined) => void; // might be empty if nothing was drawn
   onClose: () => void; // submit also closes dialog
 }
-
-const FONT_OPTIONS = [
-  "Caveat, cursive",
-  "Marck Script, cursive",
-  "Pacifico, cursive",
-  "Meddon, cursive",
-  "Kalam, cursive",
-  "Tillana, cursive"
-];
 
 const SignaturePadDialog: React.FC<IProps> = (props) => {
   const {
@@ -41,7 +33,7 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
   const refUploadInput = useRef<HTMLInputElement | null>();
   const refTextInput = useRef<HTMLInputElement | null>();
   const [tab, setTab] = useState<"draw" | "image" | "text">("draw");
-  const [font, setFont] = useState<string>(FONT_OPTIONS[0]);
+  const [font, setFont] = useState<TSignatureFont>(FONT_OPTIONS[0]);
   const [isEmpty, setIsEmpty] = useState<boolean>(true);
 
   const handleSubmit = () => {
@@ -101,26 +93,10 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
 
   return (
     <div className="signature-pad__dialog">
-      <div className="signature-pad__dialog__tabs">
-        <div
-          className="signature-pad__dialog__tab"
-          onClick={() => setTab("draw")}
-        >
-          Draw
-        </div>
-        <div
-          className="signature-pad__dialog__tab"
-          onClick={() => setTab("image")}
-        >
-          Image
-        </div>
-        <div
-          className="signature-pad__dialog__tab"
-          onClick={() => setTab("text")}
-        >
-          Text
-        </div>
-      </div>
+      <SignatureTabs
+        tab={tab}
+        setTab={setTab}
+      />
       <div className="signature-pad__dialog__content">
         <SignatureCanvas
           {...canvasProps}
@@ -140,78 +116,26 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
             Draw your signature here
           </div>
         )}
-        {tab == "image" && (
-          <>
-            {isEmpty && (
-              <div className="signature-pad__dialog__canvas-placeholder">
-                Upload new signature here
-              </div>
-            )}
-            <input
-              type="file"
-              className="hidden"
-              ref={ref => refUploadInput.current = ref}
-              onChange={handleFileUpload}
-            />
-            <div
-              className="signature-pad__dialog__image-upload-overlay"
-              style={{ width: WIDTH, height: HEIGHT }}
-              onClick={() => refUploadInput.current?.click()}
-            />
-          </>
-        )}
-        <div
-          className={clsx(tab != "text" && "hidden", "signature-pad__dialog__text-input-overlay")}
-          onClick={() => refTextInput.current?.focus()} // focuses input on click anywhere in canvas box
-          style={{ width: WIDTH, height: HEIGHT }}
-        >
-          <input
-            className="signature-pad__dialog__text-input"
-            ref={ref => refTextInput.current = ref}
-            type="text"
-            onChange={handleTextSignatureChange}
-            style={{ fontFamily: font }}
-            placeholder="Type your signature here"
-          />
-          <div className="signature-pad__dialog__text-input__fonts-grid">
-            {FONT_OPTIONS.map(fontOption => (
-              <span
-                key={fontOption}
-                className={clsx(
-                  "signature-pad__dialog__text-input__font-option",
-                  fontOption == font && "signature-pad__dialog__text-input__font-option--active"
-                )}
-                style={{ fontFamily: fontOption }}
-                onClick={() => setFont(fontOption)}
-              >
-                {fontOption.split(",")[0]}
-              </span>
-            ))}
-          </div>
-        </div>
+        <SignatureUploadOverlay
+          tab={tab}
+          isEmpty={isEmpty}
+          refUploadInput={refUploadInput}
+          handleFileUpload={handleFileUpload}
+        />
+        <SignatureTextBox
+          tab={tab}
+          font={font}
+          setFont={setFont}
+          refTextInput={refTextInput}
+          handleTextSignatureChange={handleTextSignatureChange}
+        />
       </div>
-      <div className="signature-pad__dialog__buttons">
-        {!isEmpty && (
-          <div
-            className="signature-pad__dialog__button"
-            onClick={handleClear}
-          >
-            Clear
-          </div>
-        )}
-        <div
-          className="signature-pad__dialog__button"
-          onClick={onClose}
-        >
-          Close
-        </div>
-        <div
-          className="signature-pad__dialog__button"
-          onClick={handleSubmit}
-        >
-          Submit
-        </div>
-      </div>
+      <SignatureButtons
+        isEmpty={isEmpty}
+        onClose={onClose}
+        onSubmit={handleSubmit}
+        onClear={handleClear}
+      />
     </div>
   );
 }

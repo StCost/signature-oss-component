@@ -141,9 +141,7 @@
     cursor: pointer;
 }
 
-/* make input just a text with caret, with not extra stuff */
 .signature-pad__dialog__text-input {
-    /*padding: 90% 0 0 10%;*/
     width: calc(100% - 16px);
     text-align: start;
     vertical-align: top;
@@ -156,13 +154,11 @@
     height: 40px;
     padding: 4px 8px;
 
-    /*    text transparent, but caret and placeholder not*/
     color: transparent;
     font: 30px Caveat, cursive;
     caret-color: #000;
 }
 
-/*keep color of palecholder*/
 .signature-pad__dialog__text-input::placeholder {
     color: #ddd;
     font-size: 20px;
