@@ -27,7 +27,6 @@ const SignatureText = (props: IProps) => {
   return (
     <div
       className={clsx(tab != "text" && "hidden", "signature-pad__dialog__text-input-overlay")}
-      onClick={() => refTextInput.current?.focus()} // focuses input if clicked anywhere in canvas bounds
       style={{ width: SIGNATURE_CANVAS_WIDTH, height: SIGNATURE_CANVAS_HEIGHT }}
     >
       <input
