@@ -133,8 +133,8 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
       <SignatureFooter
         isEmpty={isEmpty}
         onClose={onClose}
-        onSubmit={handleSubmit}
         onClear={onClear}
+        onSubmit={handleSubmit}
       />
     </div>
   );

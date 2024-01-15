@@ -23,3 +23,9 @@
     background: var(--signature-button-selected-color);
 }
 
+.signature-pad__dialog__button--disabled {
+    background: var(--signature-button-color) !important;
+    cursor: not-allowed !important;
+    color: var(--signature-button-disabled-color) !important;
+}
+

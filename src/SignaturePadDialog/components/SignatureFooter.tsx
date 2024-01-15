@@ -1,6 +1,7 @@
 import React from "react";
 
 import "../styles/signature-footer.css";
+import { clsx } from "../utils.signature";
 
 interface IProps {
   isEmpty: boolean;
@@ -14,19 +15,20 @@ const SignatureFooter = (props: IProps) => {
     isEmpty,
     onClose,
     onClear,
-    onSubmit,
+    onSubmit
   } = props;
 
   return (
     <div className="signature-pad__dialog__footer">
-      {!isEmpty && (
         <div
-          className="signature-pad__dialog__button"
-          onClick={onClear}
+          className={clsx(
+            "signature-pad__dialog__button",
+            isEmpty && "signature-pad__dialog__button--disabled"
+          )}
+          onClick={() => { if (!isEmpty) onClear(); }}
         >
           Clear
         </div>
-      )}
       <div
         className="signature-pad__dialog__button"
         onClick={onClose}
@@ -34,8 +36,11 @@ const SignatureFooter = (props: IProps) => {
         Close
       </div>
       <div
-        className="signature-pad__dialog__button"
-        onClick={onSubmit}
+        className={clsx(
+          "signature-pad__dialog__button",
+          isEmpty && "signature-pad__dialog__button--disabled"
+        )}
+        onClick={() => { if (!isEmpty) onSubmit(); }}
       >
         Submit
       </div>

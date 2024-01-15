@@ -3,7 +3,7 @@
 Perfect ReactJS component, if you need to collect user signature in your app and use it as image
 
 ReactJS + TypeScript + [react-signature-canvas](https://github.com/agilgur5/react-signature-canvas)
-open source signature pad component 
+open source signature pad component.
 
 ## [Live Demo on Vercel](https://signature-oss-component.vercel.app/)
 
@@ -15,7 +15,8 @@ When opened, dialog appears in center of screen and offers 3 ways to submit sign
 2. Upload image of any format (jpg, png, svg, webp, etc.) Image is put onto canvas, scaled to fit canvas, and user can draw on top of it in draw mode
 3. Type text manually and choose fancy font
 
-After submitting, dialog closes and calls callback with base64 string of signature image. This string can be saved in database or sent to server.
+- Each of options are put onto canvas, so signature is always svg. 
+- After submitting, dialog closes and calls callback with base64 string of signature image. This string can be saved in database or sent to server.
 
 ---
 
@@ -53,7 +54,7 @@ const [base64Image, setBase64Image] = React.useState<string | undefined>();
     onClose={() => setOpen(false)}
 />
 ```
-- Or see [`src/Example.tsx`](src/Example.tsx))
+- Or see [`src/Example.tsx`](src/Example.tsx)
 - Or start example app with `npm start` or `yarn start`
 
 # What is <b><i>base64</i></b>?
