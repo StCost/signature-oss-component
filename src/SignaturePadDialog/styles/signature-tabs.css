@@ -32,8 +32,6 @@
 .signature-pad__dialog__tab--selected {
     background: var(--signature-button-selected-color);
     color: var(--signature-content-color);
-    border-bottom: 1px solid var(--signature-border-color);
-    border-top: 0;
 }
 
 .signature-pad__dialog__tab--selected:after {
