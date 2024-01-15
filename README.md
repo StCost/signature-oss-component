@@ -2,6 +2,8 @@
 ReactJS + TypeScript + [react-signature-canvas](https://github.com/agilgur5/react-signature-canvas)
 open source signature pad component 
 
+[Live Demo on Vercel](https://signature-oss-component.vercel.app/)
+
 Example bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ---
