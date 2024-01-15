@@ -3,6 +3,9 @@ import { TSignatureTab } from "./SignatureTabs";
 import { clsx } from "../utils.signature";
 import { SIGNATURE_CANVAS_HEIGHT, SIGNATURE_CANVAS_WIDTH } from "../constants.signature";
 
+import "../styles/signature-text.css";
+import '../fonts/fonts.css';
+
 export type TSignatureFont = "Caveat, cursive" | "Marck Script, cursive" | "Pacifico, cursive" | "Meddon, cursive" | "Kalam, cursive" | "Tillana, cursive";
 
 export const FONT_OPTIONS: TSignatureFont[] = [
@@ -22,7 +25,7 @@ interface IProps {
   refTextInput: React.MutableRefObject<HTMLInputElement | null | undefined>;
 }
 
-const SignatureTextBox = (props: IProps) => {
+const SignatureText = (props: IProps) => {
   const {
     tab,
     font,
@@ -64,4 +67,4 @@ const SignatureTextBox = (props: IProps) => {
   )
 }
 
-export default SignatureTextBox;
+export default SignatureText;

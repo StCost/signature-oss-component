@@ -1,5 +1,7 @@
 import React from "react";
 
+import "../styles/signature-footer.css";
+
 interface IProps {
   isEmpty: boolean;
   onClose: () => void;
@@ -7,7 +9,7 @@ interface IProps {
   onClear: () => void;
 }
 
-const SignatureButtons = (props: IProps) => {
+const SignatureFooter = (props: IProps) => {
   const {
     isEmpty,
     onClose,
@@ -16,7 +18,7 @@ const SignatureButtons = (props: IProps) => {
   } = props;
 
   return (
-    <div className="signature-pad__dialog__buttons">
+    <div className="signature-pad__dialog__footer">
       {!isEmpty && (
         <div
           className="signature-pad__dialog__button"
@@ -41,4 +43,4 @@ const SignatureButtons = (props: IProps) => {
   )
 }
 
-export default SignatureButtons;
+export default SignatureFooter;

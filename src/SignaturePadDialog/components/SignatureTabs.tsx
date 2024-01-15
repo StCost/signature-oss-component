@@ -1,4 +1,6 @@
-import React, { FC } from "react";
+import React from "react";
+
+import "../styles/signature-tabs.css";
 
 export type TSignatureTab = "draw" | "image" | "text";
 

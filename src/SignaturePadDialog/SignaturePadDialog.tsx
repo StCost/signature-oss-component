@@ -7,10 +7,9 @@ import React, {
 import SignatureCanvas from 'react-signature-canvas';
 
 import './styles/signature-pad-dialog.css';
-import '../fonts/fonts.css';
 import SignatureTabs from "./components/SignatureTabs";
-import SignatureButtons from "./components/SignatureButtons";
-import SignatureTextBox, { FONT_OPTIONS, TSignatureFont } from "./components/SignatureTextBox";
+import SignatureFooter from "./components/SignatureFooter";
+import SignatureText, { FONT_OPTIONS, TSignatureFont } from "./components/SignatureText";
 import { clsx } from "./utils.signature";
 import { SIGNATURE_CANVAS_HEIGHT, SIGNATURE_CANVAS_WIDTH } from "./constants.signature";
 import SignatureUploadOverlay from "./components/SignatureUploadOverlay";
@@ -122,7 +121,7 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
           refUploadInput={refUploadInput}
           handleFileUpload={handleFileUpload}
         />
-        <SignatureTextBox
+        <SignatureText
           tab={tab}
           font={font}
           setFont={setFont}
@@ -130,7 +129,7 @@ const SignaturePadDialog: React.FC<IProps> = (props) => {
           handleTextSignatureChange={handleTextSignatureChange}
         />
       </div>
-      <SignatureButtons
+      <SignatureFooter
         isEmpty={isEmpty}
         onClose={onClose}
         onSubmit={handleSubmit}

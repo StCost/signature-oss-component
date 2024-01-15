@@ -2,6 +2,9 @@ import { SIGNATURE_CANVAS_HEIGHT, SIGNATURE_CANVAS_WIDTH } from "../constants.si
 import React from "react";
 import { TSignatureTab } from "./SignatureTabs";
 
+import "../styles/signature-upload-overlay.css";
+import { clsx } from "../utils.signature";
+
 interface ISignatureUploadOverlayProps {
   tab: TSignatureTab;
   isEmpty: boolean;
@@ -33,7 +36,10 @@ const SignatureUploadOverlay = (props: ISignatureUploadOverlayProps) => {
         onChange={handleFileUpload}
       />
       <div
-        className="signature-pad__dialog__image-upload-overlay"
+        className={clsx(
+          "signature-pad__dialog__image-upload-overlay",
+          "signature-pad__dialog__image-upload-new" // :hover:after offering to upload new or replace image
+        )}
         style={{ width: SIGNATURE_CANVAS_WIDTH, height: SIGNATURE_CANVAS_HEIGHT }}
         onClick={() => refUploadInput.current?.click()}
       />
