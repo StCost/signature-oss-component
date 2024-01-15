@@ -12,8 +12,11 @@ open source signature pad component.
 # Features
 When opened, dialog appears in center of screen and offers 3 ways to submit signature:
 1. Draw signature with mouse or finger
-2. Upload image of any format (jpg, png, svg, webp, etc.) Image is put onto canvas, scaled to fit canvas, and user can draw on top of it in draw mode
-3. Type text manually and choose fancy font
+2. Type text manually and choose fancy font
+3. Upload image of any format (jpg, png, svg, webp, etc.) 
+   1. Image is put onto canvas, scaled to fit its size
+   2. User can draw on top of uploaded image in draw mode
+   3. Signature is transparent, if original uploaded image had transparency
 
 - Each of options are put onto canvas, so signature is always svg. 
 - After submitting, dialog closes and calls callback with base64 string of signature image. This string can be saved in database or sent to server.
@@ -56,6 +59,7 @@ const [base64Image, setBase64Image] = React.useState<string | undefined>();
 ```
 - Or see [`src/Example.tsx`](src/Example.tsx)
 - Or start example app with `npm start` or `yarn start`
+- Or visit [Live Demo on Vercel](https://signature-oss-component.vercel.app/)
 
 # What is <b><i>base64</i></b>?
 - [Base64](https://en.wikipedia.org/wiki/Base64) is a group of binary-to-text encoding schemes that represent binary data (more specifically a sequence of 8-bit bytes) in an ASCII string format by translating it into a radix-64 representation. The term Base64 originates from a specific MIME content transfer encoding.
