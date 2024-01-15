@@ -34,8 +34,7 @@
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
     box-sizing: border-box;
-    border-bottom: 1px dashed var(--signature-border-color);
-    height: 103px;
+    height: 100px;
 }
 
 .signature-pad__dialog__text-input__font-option {
