@@ -3,22 +3,25 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    padding: 0 20px;
     border-bottom: 1px solid #888;
 }
 
+/* copies .signature-pad__dialog__button */
 .signature-pad__dialog__tab {
-    margin-right: 5px;
     cursor: pointer;
-    /*border: 1px solid #888;*/
-    /*border-bottom: 0;*/
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    padding: 5px 10px;
-    color: #fff;
-    background: #3d424e;
     transition-duration: 0.3s;
+    font-size: 16px;
+    padding: 16px 32px;
+    height: 100%;
+    color: #fff;
+
+    border-right: 1px solid #888;
     position: relative;
+}
+
+.signature-pad__dialog__tab:hover:not(:active) {
+    background: #ccc;
+    color: #3d424e;
 }
 
 .signature-pad__dialog__tab--selected {
@@ -36,9 +39,4 @@
     width: 100%;
     height: 2px;
     background: #1a57ec;
-}
-
-.signature-pad__dialog__tab:hover:not(:active) {
-    background: #ccc;
-    color: #3d424e;
 }

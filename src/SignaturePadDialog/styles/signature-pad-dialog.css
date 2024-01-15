@@ -11,8 +11,14 @@
     transform: translate(-50%, -50%);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     border-radius: 5px;
-    padding: 20px 0;
     box-sizing: border-box;
+    overflow: hidden;
+
+    /* disable selection. mouse movement sometimes selects text */
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
 .signature-pad__dialog__content {
